@@ -1,39 +1,64 @@
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import Navbar from "../components/Navbar";
 
 const About = () => {
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />
-
       <main className="flex-grow container mx-auto px-4 py-8">
-        <h2 className="text-3xl font-bold mb-6">About Lovable Benchmarks</h2>
-        <div className="space-y-4">
-          <p>
-            Lovable Benchmarks is a sophisticated tool designed for automated benchmarking of GPT Engineer. 
-            Our mission is to provide comprehensive and objective assessments of AI-driven engineering solutions.
-          </p>
-          <h3 className="text-2xl font-semibold mt-6 mb-2">How It Works</h3>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>
-              We use benchmark scenarios where an LLM simulates a user interacting with the product to build web applications.
-            </li>
-            <li>
-              Each scenario follows a prompt outlining the simulated user's goals and requirements.
-            </li>
-            <li>
-              After completion, another set of LLMs reviews the results to assess performance across various dimensions.
-            </li>
-          </ul>
-          <h3 className="text-2xl font-semibold mt-6 mb-2">Future Features</h3>
-          <p>
-            We are continuously working to enhance Lovable Benchmarks. Upcoming features include:
-          </p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Interactive dashboards for visualizing performance metrics</li>
-            <li>Detailed graphs showing comparisons between different system versions</li>
-            <li>A user-friendly interface for editing and customizing benchmark scenario prompts</li>
-          </ul>
-        </div>
+        <h1 className="text-4xl font-bold mb-6">About Lovable Benchmarks</h1>
+        
+        <Card className="mb-6">
+          <CardContent className="pt-6">
+            <h2 className="text-2xl font-semibold mb-4">What is Lovable Benchmarks?</h2>
+            <p className="mb-4">
+              Lovable Benchmarks is an innovative platform designed to evaluate and improve AI systems through comprehensive, scenario-based testing. Our goal is to push the boundaries of AI capabilities and ensure that AI systems are not just functional, but truly beneficial and aligned with human values.
+            </p>
+          </CardContent>
+        </Card>
+
+        <Card className="mb-6">
+          <CardContent className="pt-6">
+            <h2 className="text-2xl font-semibold mb-4">How it Works</h2>
+            <ol className="list-decimal list-inside space-y-2">
+              <li>Create diverse, challenging scenarios that test various aspects of AI systems.</li>
+              <li>Define specific evaluation criteria for each scenario.</li>
+              <li>Run AI systems through these scenarios and collect performance data.</li>
+              <li>Analyze results to identify strengths, weaknesses, and areas for improvement.</li>
+              <li>Use insights to refine AI systems and development processes.</li>
+            </ol>
+          </CardContent>
+        </Card>
+
+        <Card className="mb-6">
+          <CardContent className="pt-6">
+            <h2 className="text-2xl font-semibold mb-4">Key Performance Dimensions</h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li>Task Completion: Ability to successfully accomplish given objectives.</li>
+              <li>Accuracy: Precision and correctness of outputs and decisions.</li>
+              <li>Efficiency: Speed and resource utilization in problem-solving.</li>
+              <li>Adaptability: Flexibility in handling diverse or unexpected situations.</li>
+              <li>Creativity: Generation of novel and valuable ideas or solutions.</li>
+              <li>Ethical Alignment: Adherence to moral principles and human values.</li>
+              <li>Safety: Avoidance of harmful or dangerous actions.</li>
+              <li>Explainability: Transparency and interpretability of decision-making processes.</li>
+            </ul>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="pt-6">
+            <h2 className="text-2xl font-semibold mb-4">Future Features</h2>
+            <ul className="list-disc list-inside space-y-2">
+              <li>Advanced scenario creation tools with branching paths and dynamic elements.</li>
+              <li>Integration with popular AI development frameworks and platforms.</li>
+              <li>Collaborative benchmarking and peer review system.</li>
+              <li>Customizable reporting and visualization of benchmark results.</li>
+              <li>AI-assisted scenario generation and improvement suggestions.</li>
+            </ul>
+          </CardContent>
+        </Card>
       </main>
     </div>
   );
