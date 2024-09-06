@@ -105,7 +105,7 @@ const Index = () => {
               Our platform provides comprehensive insights into the performance and capabilities of AI-driven engineering solutions.
             </p>
             <div className="space-x-4">
-              <Button asChild size="lg" className="bg-blue-500 hover:bg-blue-600">
+              <Button asChild size="lg" className="bg-green-500 hover:bg-green-600">
                 <Link to="/login">Login</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="border-blue-500 text-blue-500 hover:bg-blue-50">
