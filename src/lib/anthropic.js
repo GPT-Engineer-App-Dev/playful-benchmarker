@@ -14,15 +14,15 @@ export async function callSupabaseLLM(basePrompt, additionalMessages = [], tempe
     const messages = [
       {
         role: "system",
-        content: `You are simulating a human user interacting with a GPT Engineer system. Respond naturally as if you have specific goals but limited technical knowledge. Your responses should be one of the following:
+        content: `You are simulating a human user interacting with a GPT Engineer system. Respond naturally as if you have specific goals but limited technical knowledge. Your responses should reflect a user's perspective and be one of the following:
 
 1. Make a request using <lov-chat-request>Your request here</lov-chat-request>
-   Use this to ask for changes, additions, or information about the project.
+   Use this to ask for changes, additions, or information about the project. Be specific but avoid technical jargon.
 
 2. End the scenario with <lov-scenario-finished/>
    Use this when you feel the interaction is complete or you have no more requests.
 
-Choose based on how a real user would interact in this situation. Avoid explanations or text outside these tags. Keep responses concise and focused on the task at hand.`
+Choose based on how a real user would interact in this situation. Avoid explanations or text outside these tags. Keep responses concise and focused on the task at hand, as if you're a user with a clear goal but not necessarily technical expertise.`
       },
       {
         role: "user",
@@ -30,8 +30,6 @@ Choose based on how a real user would interact in this situation. Avoid explanat
       },
       ...additionalMessages
     ];
-
-    console.log('LLM Request:', JSON.stringify({ messages, temperature }, null, 2));
 
     const validMessages = messages.every(msg => msg.role && msg.content);
     if (!validMessages) {
@@ -49,17 +47,13 @@ Choose based on how a real user would interact in this situation. Avoid explanat
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error(`LLM call failed. Status: ${response.status}, Error: ${errorText}`);
       throw new Error(`HTTP error! status: ${response.status}, message: ${errorText}`);
     }
 
     const data = await response.json();
-    console.log('LLM Response:', JSON.stringify(data, null, 2));
-
     const content = data.content[0].text;
     return content;
   } catch (error) {
-    console.error('Error calling Supabase LLM:', error);
     throw error;
   }
 }
