@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { supabase } from "../integrations/supabase";
 import { toast } from "sonner";
 import Navbar from "../components/Navbar";
+import { motion } from "framer-motion";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -32,41 +33,51 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-gray-800">
       <Navbar />
 
-      <main className="flex-grow container mx-auto px-4 py-8">
-        <form onSubmit={handleLogin} className="max-w-md mx-auto space-y-4">
-          <div>
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          <Button type="submit" className="w-full bg-green-500 hover:bg-green-600 text-white">
-            Log In
-          </Button>
-          <p className="text-center mt-4">
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-blue-600 hover:underline">
-              Sign up
-            </Link>
-          </p>
-        </form>
+      <main className="flex-grow container mx-auto px-4 py-8 flex items-center justify-center">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="w-full max-w-md"
+        >
+          <form onSubmit={handleLogin} className="space-y-6 bg-gray-800 p-8 rounded-xl shadow-2xl">
+            <h2 className="text-3xl font-bold text-center text-white mb-6">Login</h2>
+            <div className="space-y-2">
+              <Label htmlFor="email" className="text-white">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-white">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-300">
+              Log In
+            </Button>
+            <p className="text-center text-gray-400 mt-4">
+              Don't have an account?{" "}
+              <Link to="/signup" className="text-blue-400 hover:text-blue-300 transition-colors duration-300">
+                Sign up
+              </Link>
+            </p>
+          </form>
+        </motion.div>
       </main>
     </div>
   );
