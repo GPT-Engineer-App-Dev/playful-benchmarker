@@ -10,8 +10,6 @@ const SystemVersionSelection = ({ systemVersion, setSystemVersion }) => {
         </SelectTrigger>
         <SelectContent>
           <SelectItem value="http://localhost:8000">http://localhost:8000</SelectItem>
-          <SelectItem value="https://api.gpt-engineer.com">https://api.gpt-engineer.com</SelectItem>
-          {/* Add more options here in the future */}
         </SelectContent>
       </Select>
     </>
