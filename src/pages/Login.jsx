@@ -33,18 +33,50 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-br from-gray-900 to-gray-800">
+    <div className="relative flex flex-col min-h-screen bg-black overflow-hidden">
       <Navbar />
 
-      <main className="flex-grow container mx-auto px-4 py-8 flex items-center justify-center">
+      {/* Animated starry background */}
+      <div className="absolute inset-0 z-0">
+        {[...Array(50)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute bg-white rounded-full"
+            style={{
+              width: Math.random() * 3 + 1 + "px",
+              height: Math.random() * 3 + 1 + "px",
+              top: Math.random() * 100 + "%",
+              left: Math.random() * 100 + "%",
+            }}
+            animate={{
+              opacity: [0, 1, 0],
+              scale: [0, 1, 0],
+            }}
+            transition={{
+              duration: Math.random() * 3 + 2,
+              repeat: Infinity,
+              repeatType: "loop",
+            }}
+          />
+        ))}
+      </div>
+
+      <main className="flex-grow container mx-auto px-4 py-8 flex items-center justify-center relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="w-full max-w-md"
         >
-          <form onSubmit={handleLogin} className="space-y-6 bg-gray-800 p-8 rounded-xl shadow-2xl">
-            <h2 className="text-3xl font-bold text-center text-white mb-6">Login</h2>
+          <form onSubmit={handleLogin} className="space-y-6 bg-gray-900 bg-opacity-50 p-8 rounded-xl shadow-2xl backdrop-blur-lg border border-gray-700">
+            <motion.h2
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="text-3xl font-bold text-center text-white mb-6"
+            >
+              Login to the Future
+            </motion.h2>
             <div className="space-y-2">
               <Label htmlFor="email" className="text-white">Email</Label>
               <Input
@@ -53,7 +85,7 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500"
+                className="bg-gray-800 border-gray-700 text-white focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
             <div className="space-y-2">
@@ -64,12 +96,18 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="bg-gray-700 border-gray-600 text-white focus:ring-blue-500 focus:border-blue-500"
+                className="bg-gray-800 border-gray-700 text-white focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
-            <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-300">
-              Log In
-            </Button>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700 text-white transition-colors duration-300 relative overflow-hidden group">
+                <span className="relative z-10">Log In</span>
+                <span className="absolute inset-0 bg-gradient-to-r from-blue-400 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              </Button>
+            </motion.div>
             <p className="text-center text-gray-400 mt-4">
               Don't have an account?{" "}
               <Link to="/signup" className="text-blue-400 hover:text-blue-300 transition-colors duration-300">
@@ -79,6 +117,28 @@ const Login = () => {
           </form>
         </motion.div>
       </main>
+
+      {/* Futuristic floating elements */}
+      {[...Array(5)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute hidden md:block w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full opacity-20"
+          style={{
+            top: Math.random() * 100 + "%",
+            left: Math.random() * 100 + "%",
+          }}
+          animate={{
+            y: [0, -20, 0],
+            x: [0, 10, 0],
+            rotate: 360,
+          }}
+          transition={{
+            duration: Math.random() * 5 + 5,
+            repeat: Infinity,
+            repeatType: "reverse",
+          }}
+        />
+      ))}
     </div>
   );
 };
