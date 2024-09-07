@@ -9,7 +9,7 @@ const useBenchmarkLogic = (selectedScenarios, scenarios, systemVersion, session)
   const addRun = useAddRun();
   const addResult = useAddResult();
   const updateRun = useUpdateRun();
-  const { data: userSecrets, isLoading: isLoadingSecrets } = useUserSecrets();
+  const { data: userSecrets, isLoading: isLoadingSecrets, error: secretsError } = useUserSecrets();
 
   const handleStartBenchmark = useCallback(async () => {
     if (selectedScenarios.length === 0) {
@@ -22,8 +22,13 @@ const useBenchmarkLogic = (selectedScenarios, scenarios, systemVersion, session)
       return;
     }
 
+    if (secretsError) {
+      toast.error(`Failed to fetch user secrets: ${secretsError.message}. Please check your network connection and try again. If the problem persists, contact support.`);
+      return;
+    }
+
     if (!userSecrets || userSecrets.length === 0) {
-      toast.error("No user secrets found. Please set up your GPT Engineer test token.");
+      toast.error("No user secrets found. Please set up your GPT Engineer test token in the Secrets page.");
       return;
     }
 
@@ -31,7 +36,7 @@ const useBenchmarkLogic = (selectedScenarios, scenarios, systemVersion, session)
     const gptEngineerTestToken = secrets.GPT_ENGINEER_TEST_TOKEN;
 
     if (!gptEngineerTestToken) {
-      toast.error("GPT Engineer test token not found. Please set it up in your secrets.");
+      toast.error("GPT Engineer test token not found. Please set it up in your secrets on the Secrets page.");
       return;
     }
 
@@ -68,7 +73,7 @@ const useBenchmarkLogic = (selectedScenarios, scenarios, systemVersion, session)
       toast.error("An error occurred while starting the benchmark. Please try again.");
       setIsRunning(false);
     }
-  }, [selectedScenarios, scenarios, systemVersion, session, addRun, addResult, userSecrets, isLoadingSecrets]);
+  }, [selectedScenarios, scenarios, systemVersion, session, addRun, addResult, userSecrets, isLoadingSecrets, secretsError]);
 
   return {
     isRunning,
