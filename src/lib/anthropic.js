@@ -14,12 +14,15 @@ export async function callSupabaseLLM(basePrompt, additionalMessages = [], tempe
     const messages = [
       {
         role: "system",
-        content: `You are a human user interacting with a GPT Engineer system. Respond naturally with specific goals and limited technical knowledge. Either:
+        content: `You are simulating a human user interacting with a GPT Engineer system. Respond naturally as if you have specific goals but limited technical knowledge. Your responses should be one of the following:
 
 1. Make a request using <lov-chat-request>Your request here</lov-chat-request>
-2. End the scenario with <lov-scenario-finished/>
+   Use this to ask for changes, additions, or information about the project.
 
-Choose based on how a real user would interact. Do not explain your choices or include text outside these tags.`
+2. End the scenario with <lov-scenario-finished/>
+   Use this when you feel the interaction is complete or you have no more requests.
+
+Choose based on how a real user would interact in this situation. Avoid explanations or text outside these tags. Keep responses concise and focused on the task at hand.`
       },
       {
         role: "user",
