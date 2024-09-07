@@ -1,11 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import React from "react";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_PROJECT_URL;
 const supabaseKey = import.meta.env.VITE_SUPABASE_API_KEY;
 export const supabase = createClient(supabaseUrl, supabaseKey);
 
-import React from "react";
 export const queryClient = new QueryClient();
 export function SupabaseProvider({ children }) {
     return React.createElement(QueryClientProvider, { client: queryClient }, children);
@@ -16,81 +16,6 @@ const fromSupabase = async (query) => {
     if (error) throw new Error(error.message);
     return data;
 };
-
-/* supabase integration types
-
-### user_secrets
-
-| name       | type                   | format | required |
-|------------|------------------------|--------|----------|
-| id         | uuid                   | string | true     |
-| user_id    | uuid                   | string | true     |
-| secret     | text                   | string | true     |
-| created_at | timestamp with time zone | string | true     |
-
-### reviewers
-
-| name             | type                   | format  | required |
-|------------------|------------------------|---------|----------|
-| id               | uuid                   | string  | true     |
-| scenario_id      | uuid                   | string  | true     |
-| dimension        | text                   | string  | true     |
-| description      | text                   | string  | true     |
-| prompt           | text                   | string  | true     |
-| weight           | numeric                | number  | true     |
-| llm_model        | text                   | string  | true     |
-| llm_temperature  | numeric                | number  | true     |
-| run_count        | integer                | number  | true     |
-| created_at       | timestamp with time zone | string  | true     |
-| version          | integer                | number  | false    |
-
-### review_dimensions
-
-| name        | type                   | format | required |
-|-------------|------------------------|--------|----------|
-| id          | uuid                   | string | true     |
-| name        | text                   | string | true     |
-| description | text                   | string | false    |
-| created_at  | timestamp with time zone | string | true     |
-
-### benchmark_scenarios
-
-| name             | type                   | format | required |
-|------------------|------------------------|--------|----------|
-| id               | uuid                   | string | true     |
-| name             | text                   | string | true     |
-| description      | text                   | string | false    |
-| prompt           | text                   | string | true     |
-| llm_model        | text                   | string | true     |
-| llm_temperature  | numeric                | number | true     |
-| timeout          | integer                | number | true     |
-| created_at       | timestamp with time zone | string | true     |
-| version          | integer                | number | false    |
-
-### results
-
-| name        | type                   | format | required |
-|-------------|------------------------|--------|----------|
-| id          | uuid                   | string | true     |
-| run_id      | uuid                   | string | true     |
-| reviewer_id | uuid                   | string | true     |
-| result      | jsonb                  | object | false    |
-| created_at  | timestamp with time zone | string | true     |
-
-### runs
-
-| name                | type                   | format | required |
-|---------------------|------------------------|--------|----------|
-| id                  | uuid                   | string | true     |
-| scenario_id         | uuid                   | string | true     |
-| system_version      | text                   | string | true     |
-| project_id          | text                   | string | true     |
-| user_id             | uuid                   | string | false    |
-| created_at          | timestamp with time zone | string | true     |
-| impersonation_failed| boolean                | boolean| false    |
-| link                | text                   | string | false    |
-
-*/
 
 // User Secrets
 export const useUserSecrets = () => useQuery({
@@ -212,74 +137,6 @@ export const useDeleteReviewDimension = () => {
     });
 };
 
-// Benchmark Scenarios
-export const useBenchmarkScenarios = () => useQuery({
-    queryKey: ['benchmark_scenarios'],
-    queryFn: () => fromSupabase(supabase.from('benchmark_scenarios').select('*, reviewers(*)')),
-});
-
-export const useBenchmarkScenario = (id) => useQuery({
-    queryKey: ['benchmark_scenarios', id],
-    queryFn: () => fromSupabase(supabase.from('benchmark_scenarios').select('*').eq('id', id).single()),
-    enabled: !!id,
-});
-
-export const useAddBenchmarkScenario = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: async (newScenario) => {
-            console.log("Adding new scenario:", newScenario);
-            const { id, ...scenarioWithoutId } = newScenario; // Remove id from the input
-            const { data, error } = await supabase.from('benchmark_scenarios').insert([{
-                ...scenarioWithoutId,
-                timeout: scenarioWithoutId.timeout || 300 // Default to 5 minutes if not provided
-            }]).select().single();
-            
-            if (error) {
-                console.error("Error adding scenario:", error);
-                throw error;
-            }
-            
-            if (!data) {
-                console.error("No data returned after adding scenario");
-                throw new Error("No data returned after adding scenario");
-            }
-            
-            console.log("Successfully added scenario:", data);
-            return { data, error: null };
-        },
-        onSuccess: () => {
-            queryClient.invalidateQueries('benchmark_scenarios');
-        },
-        onError: (error) => {
-            console.error("Mutation error:", error);
-        },
-    });
-};
-
-export const useUpdateBenchmarkScenario = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: ({ id, ...updateData }) => fromSupabase(supabase.from('benchmark_scenarios').update({
-            ...updateData,
-            timeout: updateData.timeout || 300 // Default to 5 minutes if not provided
-        }).eq('id', id)),
-        onSuccess: () => {
-            queryClient.invalidateQueries('benchmark_scenarios');
-        },
-    });
-};
-
-export const useDeleteBenchmarkScenario = () => {
-    const queryClient = useQueryClient();
-    return useMutation({
-        mutationFn: (id) => fromSupabase(supabase.from('benchmark_scenarios').delete().eq('id', id)),
-        onSuccess: () => {
-            queryClient.invalidateQueries('benchmark_scenarios');
-        },
-    });
-};
-
 // Results
 export const useResults = () => useQuery({
     queryKey: ['results'],
@@ -369,3 +226,6 @@ export const useDeleteRun = () => {
         },
     });
 };
+
+// Re-export benchmark scenario functions
+export * from './benchmarkScenarios';
