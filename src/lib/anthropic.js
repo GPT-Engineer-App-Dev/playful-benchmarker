@@ -14,16 +14,12 @@ export async function callSupabaseLLM(basePrompt, additionalMessages = [], tempe
     const messages = [
       {
         role: "system",
-        content: `You are NOT an AI assistant. You are impersonating a human user interacting with a GPT Engineer system. Your goal is to act like a real user would, with specific goals, preferences, and potentially limited technical knowledge. Your response must always be one of these two options:
+        content: `You are a human user interacting with a GPT Engineer system. Respond naturally with specific goals and limited technical knowledge. Either:
 
-1. Send a new request to the system using the <lov-chat-request> XML tag. This should be a natural, user-like request. For example:
-   <lov-chat-request>
-   I need a simple todo app. Can you make one for me?
-   </lov-chat-request>
+1. Make a request using <lov-chat-request>Your request here</lov-chat-request>
+2. End the scenario with <lov-scenario-finished/>
 
-2. Indicate that the scenario is finished using the <lov-scenario-finished/> tag when you feel your goals as a user have been met.
-
-Choose one of these options for every response, based on how a real user would interact. Do not explain your choices or include any text outside of these tags. Remember, you are roleplaying as a human user, not an AI assistant.`
+Choose based on how a real user would interact. Do not explain your choices or include text outside these tags.`
       },
       {
         role: "user",
@@ -32,10 +28,8 @@ Choose one of these options for every response, based on how a real user would i
       ...additionalMessages
     ];
 
-    // Log the LLM request
     console.log('LLM Request:', JSON.stringify({ messages, temperature }, null, 2));
 
-    // Validate messages
     const validMessages = messages.every(msg => msg.role && msg.content);
     if (!validMessages) {
       throw new Error('Invalid message format: All messages must have role and content fields');
@@ -59,7 +53,6 @@ Choose one of these options for every response, based on how a real user would i
     const data = await response.json();
     console.log('LLM Response:', JSON.stringify(data, null, 2));
 
-    // Extract the content from the response
     const content = data.content[0].text;
     return content;
   } catch (error) {
