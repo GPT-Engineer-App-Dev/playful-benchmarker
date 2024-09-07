@@ -23,12 +23,26 @@ const useBenchmarkLogic = (selectedScenarios, scenarios, systemVersion, session)
     }
 
     if (secretsError) {
-      toast.error(`Failed to fetch user secrets: ${secretsError.message}. Please check your network connection and try again. If the problem persists, contact support.`);
+      toast.error(`Failed to fetch user secrets: ${secretsError.message}. 
+        User secrets are required to authenticate with external services for benchmarking.
+        Please try the following:
+        1. Check your internet connection.
+        2. Ensure you have set up your secrets on the Secrets page.
+        3. If you haven't set up secrets yet, go to the Secrets page by clicking on your profile and selecting "Secrets".
+        4. If you've recently changed your secrets, try logging out and logging back in.
+        5. Clear your browser cache and try again.
+        If the problem persists, please contact our support team at support@lovablebenchmarks.com with the error details.`);
       return;
     }
 
     if (!userSecrets || userSecrets.length === 0) {
-      toast.error("No user secrets found. Please set up your GPT Engineer test token in the Secrets page.");
+      toast.error(`No user secrets found. User secrets are necessary to run benchmarks.
+        Please set up your GPT Engineer test token in the Secrets page:
+        1. Click on your profile in the top right corner.
+        2. Select "Secrets" from the dropdown menu.
+        3. Enter your GPT Engineer test token in the designated field.
+        4. Save your changes.
+        After setting up your secrets, return to this page and try starting the benchmark again.`);
       return;
     }
 
@@ -36,7 +50,13 @@ const useBenchmarkLogic = (selectedScenarios, scenarios, systemVersion, session)
     const gptEngineerTestToken = secrets.GPT_ENGINEER_TEST_TOKEN;
 
     if (!gptEngineerTestToken) {
-      toast.error("GPT Engineer test token not found. Please set it up in your secrets on the Secrets page.");
+      toast.error(`GPT Engineer test token not found in your secrets.
+        This token is crucial for authenticating with the GPT Engineer service.
+        To add it:
+        1. Go to the Secrets page (Profile > Secrets).
+        2. Enter your GPT Engineer test token in the "GPT_ENGINEER_TEST_TOKEN" field.
+        3. Save your changes.
+        If you don't have a GPT Engineer test token, please contact our support team for assistance.`);
       return;
     }
 
