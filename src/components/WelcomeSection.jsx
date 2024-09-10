@@ -70,26 +70,6 @@ const WelcomeSection = () => {
           </Button>
         </motion.div>
       </div>
-
-      {[...Array(20)].map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute w-1 h-1 bg-blue-500 rounded-full opacity-70"
-          style={{
-            top: Math.random() * 100 + "%",
-            left: Math.random() * 100 + "%",
-          }}
-          animate={{
-            y: [0, -10, 0],
-            opacity: [0.7, 1, 0.7],
-          }}
-          transition={{
-            duration: Math.random() * 2 + 1,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
-        />
-      ))}
     </div>
   );
 };
