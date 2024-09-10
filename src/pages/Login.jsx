@@ -50,7 +50,7 @@ const Login = () => {
   };
 
   return (
-    <div className="relative flex flex-col min-h-screen bg-black text-green-500 overflow-hidden font-mono">
+    <div className="relative flex flex-col min-h-screen bg-black text-blue-400 overflow-hidden font-mono">
       <Navbar />
 
       <div className="absolute inset-0 z-0 opacity-20">
@@ -64,29 +64,29 @@ const Login = () => {
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="w-full max-w-md"
         >
-          <form onSubmit={handleLogin} className="space-y-6 bg-black bg-opacity-70 p-8 rounded-xl shadow-2xl border border-green-500 relative overflow-hidden">
-            <div className="absolute inset-0 bg-green-500 opacity-5 animate-pulse"></div>
+          <form onSubmit={handleLogin} className="space-y-6 bg-black bg-opacity-70 p-8 rounded-xl shadow-2xl border border-blue-500 relative overflow-hidden">
+            <div className="absolute inset-0 bg-blue-500 opacity-5 animate-pulse"></div>
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
               className="flex items-center justify-center mb-6"
             >
-              <Terminal className="w-12 h-12 text-green-500 mr-2" />
-              <h2 className="text-3xl font-bold text-green-500">Secure Login</h2>
+              <Terminal className="w-12 h-12 text-blue-500 mr-2" />
+              <h2 className="text-3xl font-bold text-blue-500">Secure Login</h2>
             </motion.div>
             <div className="space-y-2 relative">
-              <Label htmlFor="email" className="text-green-500">Identifier</Label>
+              <Label htmlFor="email" className="text-blue-400">Identifier</Label>
               <Input
                 id="email"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="bg-black border-green-500 text-green-500 focus:ring-green-500 focus:border-green-500"
+                className="bg-black border-blue-500 text-blue-400 focus:ring-blue-500 focus:border-blue-500"
               />
               <motion.div
-                className="absolute right-2 top-8 text-green-500"
+                className="absolute right-2 top-8 text-blue-500"
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity }}
               >
@@ -94,17 +94,17 @@ const Login = () => {
               </motion.div>
             </div>
             <div className="space-y-2 relative">
-              <Label htmlFor="password" className="text-green-500">Access Code</Label>
+              <Label htmlFor="password" className="text-blue-400">Access Code</Label>
               <Input
                 id="password"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="bg-black border-green-500 text-green-500 focus:ring-green-500 focus:border-green-500"
+                className="bg-black border-blue-500 text-blue-400 focus:ring-blue-500 focus:border-blue-500"
               />
               <motion.div
-                className="absolute right-2 top-8 text-green-500"
+                className="absolute right-2 top-8 text-blue-500"
                 animate={{ opacity: [0, 1, 0] }}
                 transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
               >
@@ -117,7 +117,7 @@ const Login = () => {
             >
               <Button 
                 type="submit" 
-                className="w-full bg-green-500 hover:bg-green-600 text-black transition-colors duration-300 relative overflow-hidden group"
+                className="w-full bg-blue-500 hover:bg-blue-600 text-black transition-colors duration-300 relative overflow-hidden group"
                 disabled={isDecrypting}
               >
                 {isDecrypting ? (
@@ -134,12 +134,12 @@ const Login = () => {
                 ) : (
                   <span>Initialize Access</span>
                 )}
-                <span className="absolute inset-0 bg-gradient-to-r from-green-400 to-blue-500 opacity-0 group-hover:opacity-50 transition-opacity duration-300"></span>
+                <span className="absolute inset-0 bg-gradient-to-r from-blue-400 to-cyan-500 opacity-0 group-hover:opacity-50 transition-opacity duration-300"></span>
               </Button>
             </motion.div>
-            <p className="text-center text-green-400 mt-4">
+            <p className="text-center text-blue-300 mt-4">
               Need clearance?{" "}
-              <Link to="/signup" className="text-green-300 hover:text-green-200 transition-colors duration-300">
+              <Link to="/signup" className="text-blue-200 hover:text-blue-100 transition-colors duration-300">
                 Request Access
               </Link>
             </p>
@@ -150,7 +150,7 @@ const Login = () => {
       {[...Array(10)].map((_, i) => (
         <motion.div
           key={i}
-          className="absolute hidden md:block w-1 h-1 bg-green-500 rounded-full opacity-70"
+          className="absolute hidden md:block w-1 h-1 bg-blue-500 rounded-full opacity-70"
           style={{
             top: Math.random() * 100 + "%",
             left: Math.random() * 100 + "%",
